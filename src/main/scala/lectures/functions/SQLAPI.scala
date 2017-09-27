@@ -26,7 +26,6 @@ package lectures.functions
   *
   */
 class SQLAPI(resource: String) {
-
   case class Connection(resource: String, opened: Boolean = false) {
 
     private val result = "SQL has been executed. Congrats!"
@@ -37,11 +36,22 @@ class SQLAPI(resource: String) {
 
   }
 
-  private def logParameter[T](prm: T): T  = ???
+
+  private def logParameter[T](prm: T): T  = {
+    println(prm)
+    prm
+  }
 
   val connection = (resource: String) => Connection(resource)
 
-  def execute(sql: String): String = ??? // use resource from constructor
+  def execute(sql: String): String = {
+    val res = logParameter(resource)
+    val statement = logParameter(sql)
+    val executor = openConnection(connection(res))
+
+    logParameter(executor(statement))
+  }
+  // use resource from constructor
 
 
   def openConnection(connection: Connection): (String) => String =

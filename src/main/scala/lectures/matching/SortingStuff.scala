@@ -74,8 +74,7 @@ object SortingStuff extends App {
       case item :: rest =>
         val newBox = putStuffInRightBox(item, stuffBox)
         sort(rest, newBox)
-      //case _ => stuffBox
-
+      case _ => stuffBox
     }
     // // Метод должен положить вещь в правильную коробку
     private def putStuffInRightBox(item: Stuff, stuffBox: StuffBox) = item match {
@@ -86,12 +85,12 @@ object SortingStuff extends App {
     }
 
     def findMyKnife(stuffBox: StuffBox): Boolean = stuffBox match {
-      case junk@stuffBox.junk if junk.contains(Knife) => true
+      case StuffBox(_, _, _, junk) if junk.contains(Knife) => true
       case _ => false
     }
 
     //вместо вопросов подставьте композицию функций  sortJunk и findMyKnife
-   val knifeIsInJunk = findMyKnife(sortJunk(stuff))
+   val knifeIsInJunk: Boolean = (sortJunk _ andThen findMyKnife)(stuff)
 
   print(s"Is knife in a junk? - $knifeIsInJunk")
 
